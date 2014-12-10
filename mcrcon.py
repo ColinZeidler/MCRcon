@@ -21,7 +21,7 @@ class MCRcon:
         buff = struct.pack('<iii', 
             10+len(out_data),
             0,
-            out_type) + out_data.encode('utf-8') + b"\x00\x00"
+            out_type) + out_data.encode('ascii') + b"\x00\x00"
         self.s.send(buff)
         
         #Receive a response
@@ -35,7 +35,7 @@ class MCRcon:
             #Error checking
             if tmp_data[-2:] != b'\x00\x00':
                 raise Exception('protocol failure', 'non-null pad bytes')
-            tmp_data = tmp_data[:-2].decode('utf-8')
+            tmp_data = tmp_data[:-2].decode('ascii')
             
             #if tmp_type != out_type:
             #    raise Exception('protocol failure', 'type mis-match', tmp_type, out_type)
